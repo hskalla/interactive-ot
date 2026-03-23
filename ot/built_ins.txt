@@ -1,0 +1,7 @@
+MAX             -- prohibits deletion
+DEP             -- prohibits epenthesis
+IDENT(feature)  -- prohibits alteration to the value of the feature
+NUC             -- syllables must have nuclei
+*CODA           -- prohibits syllable codas
+ONS             -- syllables must have onsets
+*COMPLEX        -- syllables must not have more than one segment in onset, nucleus or coda.
