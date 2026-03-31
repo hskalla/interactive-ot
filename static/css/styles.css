@@ -1,0 +1,23 @@
+.flex_row {
+    display: flex; /* Makes the container a flex container */
+}
+  
+.flex_column {
+    flex: 1; /* Makes all columns grow and shrink equally to fill the space */
+    padding: 10px; /* Optional: adds space inside the columns */
+    border: 1px solid black; /* Optional: visual aid */
+}
+
+.constraint_table {
+    border: 1px solid black;
+    th, td {
+        border: 1px solid black; /* Optional: visual aid */
+    }
+    th {
+        color:blue;
+    }
+}
+
+h1 {
+    color:blue;
+}
