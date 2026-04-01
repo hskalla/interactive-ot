@@ -3,6 +3,8 @@ from flask import Flask, request, jsonify
 from flask import render_template
 from ot.ot import analysis
 import json
+import hmac
+import hashlib
 
 app = Flask(__name__)
 
@@ -26,6 +28,10 @@ def ot_analysis():
 
 @app.route("/update", methods=["POST"])
 def update():
+    x_hub_signature = request.headers.get("X-Hub-Signature")
+    w_secret = os.environ["WEBHOOK_SECRET"]
+    if not is_valid_signature(x_hub_signature, request.data, w_secret):
+        return "Invalid credentials.", 401
     if request.method == "POST":
         repo = git.Repo("./")
         origin = repo.remotes.origin
@@ -35,6 +41,15 @@ def update():
     else:
         print("fail")
         return "Wrong event type.", 400
+
+def is_valid_signature(x_hub_signature, data, private_key):
+    # x_hub_signature and data are from the webhook payload
+    # private key is your webhook secret
+    hash_algorithm, github_signature = x_hub_signature.split('=', 1)
+    algorithm = hashlib.__dict__.get(hash_algorithm)
+    encoded_key = bytes(private_key, 'latin-1')
+    mac = hmac.new(encoded_key, msg=data, digestmod=algorithm)
+    return hmac.compare_digest(mac.hexdigest(), github_signature)
 
 if __name__ == '__main__':
     app.run()
