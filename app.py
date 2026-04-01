@@ -23,3 +23,6 @@ def ot_analysis():
     tableau_list = [[key, value] for key, value in tableau.items()]
     print(tableau_list)
     return {"tableau": tableau_list}
+
+if __name__ == '__main__':
+    app.run()
