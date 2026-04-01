@@ -122,8 +122,13 @@
                     col.addEventListener('drop', listenerDrop, false);
 
                     document.getElementById('myButton').addEventListener('click', () => {
-                        reloadAnalysis()
-                    });
+                        fetch('/update', {
+                                method: 'POST',
+                                headers: {'Content-Type': 'application/json'},
+                            })
+                            .then(() => console.log("update success")) // Parse the response body as JSON
+                            .catch(err => console.log(err));
+                        });
                 });
                 console.log("binding events")
             }

@@ -30,8 +30,10 @@ def update():
         repo = git.Repo("./")
         origin = repo.remotes.origin
         origin.pull()
+        print("success")
         return "Updated PythonAnywhere successfully.", 200
     else:
+        print("fail")
         return "Wrong event type.", 400
 
 if __name__ == '__main__':
