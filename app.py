@@ -1,8 +1,8 @@
+import git
 from flask import Flask, request, jsonify
 from flask import render_template
 from ot.ot import analysis
 import json
-import git
 
 app = Flask(__name__)
 
