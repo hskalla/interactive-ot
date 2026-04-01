@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask import render_template
 from ot.ot import analysis
 import json
-
+import git
 
 app = Flask(__name__)
 
@@ -23,6 +23,16 @@ def ot_analysis():
     tableau_list = [[key, value] for key, value in tableau.items()]
     print(tableau_list)
     return {"tableau": tableau_list}
+
+@app.route("/update", methods=["POST"])
+def update():
+    if request.method == "POST":
+        repo = git.Repo("./")
+        origin = repo.remotes.origin
+        origin.pull()
+        return "Updated PythonAnywhere successfully.", 200
+    else:
+        return "Wrong event type.", 400
 
 if __name__ == '__main__':
     app.run()
