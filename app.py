@@ -40,6 +40,8 @@ def update():
         return "Invalid credentials.", 401
     if request.method == "POST":
         repo = git.Repo("./")
+        repo.git.stash()
+        repo.git.stash("clear")
         origin = repo.remotes.origin
         origin.pull()
         return "Updated PythonAnywhere successfully.", 200
