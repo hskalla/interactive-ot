@@ -1,7 +1,7 @@
 import git
 from flask import Flask, request, jsonify
 from flask import render_template
-from ot.ot import analysis
+from ot.ot import analysis, const_list
 import json
 import hmac
 import hashlib
@@ -11,10 +11,9 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
-    input="mamasa"
-    forms=["ma.ma.sas","ma.ma.sa.s","ma.ma.sa","ma.ma.sa.sa","ma.ma.sa.as","sma.ma.sas"]
-    consts=["DEP","MAX","NUC"]
-    return render_template('index.html', input=input, forms=forms, consts=consts)
+    input="mamasas"
+    consts=["DEP","MAX","NUC","*CODA"]
+    return render_template('index.html', input=input, consts=consts)
 
 @app.route("/ot-analysis", methods=["POST"])
 def ot_analysis():
@@ -27,6 +26,12 @@ def ot_analysis():
     print(tableau_list)
     return {"tableau": tableau_list}
 
+@app.route("/ot-constraints", methods=["POST"])
+def ot_constraints():
+    constraints = const_list()
+    print("constraints:" + str(constraints))
+    return {"constraints": constraints}
+
 @app.route("/update", methods=["POST"])
 def update():
     x_hub_signature = request.headers.get("X-Hub-Signature")
@@ -37,10 +42,8 @@ def update():
         repo = git.Repo("./")
         origin = repo.remotes.origin
         origin.pull()
-        print("success")
         return "Updated PythonAnywhere successfully.", 200
     else:
-        print("fail")
         return "Wrong event type.", 400
 
 def is_valid_signature(x_hub_signature, data, private_key):

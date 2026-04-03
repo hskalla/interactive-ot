@@ -18,6 +18,50 @@
     }
 }
 
+.popup {
+    margin: 0px;
+    position: fixed; /* 1. Take it out of normal flow */
+    top: 0;
+    left: 200px;
+    z-index: 9999; /* 2. High number to be in front */
+    background: white; /* Semi-transparent background */
+    text-align: center;
+    color: black;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+
+    .popup_content {
+        padding: 5px;
+    }
+
+    .popup_header {
+        box-sizing: border-box;
+        border-bottom: 1px solid black;
+        width: 100%;
+        cursor: move;
+        display: flex;
+        justify-content: space-between;
+        gap: 5px;
+        padding: 5px;
+    
+        span {
+            align-content: center;
+        }
+    
+        .popup_close {
+            box-sizing: border-box;
+            aspect-ratio: 1;
+            width: 20px;
+            padding: 0px;
+            border-radius: 0%;
+            border: 1px solid black;
+            text-align: center;
+        }
+    }
+}
+
 h1 {
     color:red;
 }

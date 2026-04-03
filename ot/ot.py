@@ -19,6 +19,11 @@ def harmonic_sort(arr, depth):
             output_arr.update(harmonic_sort(form_set,depth+1))
     return output_arr
 
+def const_list():
+    consts = compile()
+    for i in range(len(consts)):
+        consts[i] = consts[i].name
+    return consts
 
 def main(args):
     # --- get forms from txt file ---
