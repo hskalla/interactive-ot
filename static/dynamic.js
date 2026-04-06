@@ -21,7 +21,7 @@ export function reloadAnalysis() {
             }
             $(".constraint_table").html(formatConstraints(table));
             $(".candidate_table").html(formatForms(json.tableau));
-            let header_height = $('#const_header').height();
+            let header_height = $('.const_header').height();
             $("#form_header").height(header_height);
             bindEvents();
         }) // Use the parsed data
@@ -31,7 +31,7 @@ export function reloadAnalysis() {
 function formatConstraints(arr) {
     let html = "";
     for (const c of arr[0]) {
-        html += ("<th id='const_header' draggable='true'>" + c + "</th>");
+        html += ("<th class='const_header' draggable='true'>" + c + "</th>");
     }
     let add_const_button = "<th><button class='add_const'>+</button></th>";
     html += add_const_button;
@@ -56,7 +56,7 @@ function formatConstraints(arr) {
 }
 
 function formatForms(arr) {
-    let html = "<tr id='form_header'><th/></tr>";
+    let html = "<tr id='form_header'><th>Forms:</th></tr>";
     for (const c of arr) {
         html += ("<tr><td>" + c[0] + "</td></tr>");
     }
@@ -128,6 +128,16 @@ function bindEvents() {
     });
     document.querySelector(".add_const").addEventListener("click", () => {
         openPopup("add_constraint")
+    });
+    console.log(document.querySelectorAll(".const_header"))
+    document.querySelectorAll(".const_header").forEach(e => {
+        e.addEventListener("click", () => {
+            if (window.constraints.length > 1) {
+                window.constraints = window.constraints.filter(item => item !== e.textContent);
+                console.log(e.textContent);
+                reloadAnalysis();
+            }
+        });
     });
     /* document.querySelectorAll('.popup').forEach(elmnt => {
         dragElement(elmnt);

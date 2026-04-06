@@ -12,7 +12,7 @@
         import { reloadAnalysis } from "./static/dynamic.js";
 
         $(document).ready(function(){
-            window.constraints = ["MAX","DEP","*CODA","ONS"]
+            window.constraints = ["NUC","*COMPLEX","MAX","DEP","ONS","*CODA"]
 
             initializePopups()
             reloadAnalysis()
@@ -20,11 +20,10 @@
     </script>
 </head>
 <body class="body">
-    <h1>Index main page</h1>
+    <h1>Interactive Optimality Theory</h1>
     <div class="grid">
         <div class="grid_box">
-            <p><b>Input:</b></p>
-            <p> {{ input }} </p>
+            <p><b>Input: </b>{{ input }}</p>
         </div>
         <div class="grid_box"> {# empty div for formatting #} </div>
         <div class="grid_box">

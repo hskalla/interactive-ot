@@ -11,8 +11,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
-    input="mamasas"
-    consts=["DEP","MAX","NUC","*CODA"]
+    input="embereknek"
+    consts=["NUC","*COMPLEX","MAX","DEP","ONS","*CODA"]
     return render_template('index.html', input=input, consts=consts)
 
 @app.route("/ot-analysis", methods=["POST"])
