@@ -15,16 +15,22 @@ export function initializePopups() {
     constraints.forEach(constraint => {
       constraints_html += "<option>" + constraint + "</option>"
     });
-    let content = "<select id='add_constraint_select'>" + constraints_html + "</select>"
+    let content = "<select id='add_constraint_select'>" + constraints_html + "</select><div id='add_constraint_error'></div>"
     let button = "<button id='add_constraint_button'> Add </button>"
     let popup = makePopup(name, id, content, [button]);
     document.getElementById("add_constraint_button").addEventListener('click', () => {
-      console.log(document.getElementById("add_constraint_select").value);
-      window.constraints.push(document.getElementById("add_constraint_select").value);
-      closePopup("add_constraint")
+      let constraint_choice = document.getElementById("add_constraint_select").value;
+      if (window.constraints.includes(constraint_choice)) {
+        console.log("includes constraint")
+        document.getElementById("add_constraint_error").innerHTML = "Constraint is already included in the tableau.";
+      } else {
+        console.log("doesnt include constraint")
+        document.getElementById("add_constraint_error").innerHTML = "";
+        window.constraints.push(constraint_choice);
+        closePopup("add_constraint")
+      }
       reloadAnalysis();
     });
-    console.log("got to drag")
     dragElement(popup);
   });
 }

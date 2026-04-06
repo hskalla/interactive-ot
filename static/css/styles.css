@@ -104,6 +104,12 @@
     }
 }
 
+#add_constraint_error {
+    color: red;
+    font-size: 10pt;
+    padding: 5px;
+}
+
 h1 {
     color:red;
 }
