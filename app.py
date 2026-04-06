@@ -19,11 +19,10 @@ def hello_world():
 def ot_analysis():
     data = request.get_json()
     constraints = data.get("constraints")
-    print(constraints)
-    args = [0,"syllables"] + constraints
+    args = [0,"syllables","--format"] + constraints
     tableau = analysis(args)
     tableau_list = [[key, value] for key, value in tableau.items()]
-    print(tableau_list)
+    print("ot-analysis: " + str(tableau_list))
     return {"tableau": tableau_list}
 
 @app.route("/ot-constraints", methods=["POST"])

@@ -21,15 +21,18 @@
 </head>
 <body class="body">
     <h1>Index main page</h1>
-    <div class="flex_row">
-        <div class="flex_column">
-            <h3>Input:</h3>
+    <div class="grid">
+        <div class="grid_box">
+            <p><b>Input:</b></p>
             <p> {{ input }} </p>
+        </div>
+        <div class="grid_box"> {# empty div for formatting #} </div>
+        <div class="grid_box">
             <table class="candidate_table">
                 {# Candidate table contents are dynamically rendered. #}
             </table>
         </div>
-        <div class="flex_column">
+        <div class="grid_box">
             <table class="constraint_table">
                 {# Constraint table contents are dynamically rendered. #}
             </table>

@@ -21,6 +21,8 @@ export function reloadAnalysis() {
             }
             $(".constraint_table").html(formatConstraints(table));
             $(".candidate_table").html(formatForms(json.tableau));
+            let header_height = $('#const_header').height();
+            $("#form_header").height(header_height);
             bindEvents();
         }) // Use the parsed data
         .catch(err => console.log(err)); // Handle network or request errors
@@ -29,15 +31,23 @@ export function reloadAnalysis() {
 function formatConstraints(arr) {
     let html = "";
     for (const c of arr[0]) {
-        html += ("<th draggable='true'>" + c + "</th>");
+        html += ("<th id='const_header' draggable='true'>" + c + "</th>");
     }
-    let add_const_button = "<td><button class='add_const'>+</button></td>";
+    let add_const_button = "<th><button class='add_const'>+</button></th>";
     html += add_const_button;
     html = "<tr>" + html + "</tr>";
     for (let i=1; i<arr.length; i++) {
         let row = "";
+        let exc = false;
         for (const c of arr[i]) {
-            row += ("<td>" + c + "</td>");
+            if (exc) {
+                row += ("<td class='grayed'>" + c.replaceAll("?","") + "</td>");
+            } else {
+                row += ("<td>" + c.replaceAll("?","") + "</td>");
+            }
+            if (!exc && (c.includes("?") || c.includes("!"))) {
+                exc = true;
+            }
         }
         row = "<tr>" + row + "</tr>";
         html += row;
@@ -46,7 +56,7 @@ function formatConstraints(arr) {
 }
 
 function formatForms(arr) {
-    let html = "";
+    let html = "<tr id='form_header'><th/></tr>";
     for (const c of arr) {
         html += ("<tr><td>" + c[0] + "</td></tr>");
     }
@@ -84,9 +94,15 @@ function listenerDrop(e) {
     }
     var srcText = e.dataTransfer.getData('text'); 
     var destText = $(this).text();
+    if (srcText == destText) {
+        return; // Cancels the action if user drags a constraint onto itself.
+    }
     window.constraints = []
     $('.constraint_table tr:first th').each(function(index) {
         var cellText = $(this).text();
+        if (cellText == "+") {
+            return true; // Acts like a continue statement.
+        }
         if (cellText !== srcText) {
             if (cellText === destText) {
                 window.constraints.push(srcText)
