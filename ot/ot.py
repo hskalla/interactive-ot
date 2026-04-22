@@ -58,25 +58,15 @@ def const_list():
     return consts
 
 def main(args):
-    # --- get forms from txt file ---
+    # --- set up variables: input, forms, constraints ---
 
-    file_path = "ot/forms/" + args.input_set + ".txt"
-    #file_path = "forms/" + args.input_set + ".txt"
-    try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-        content = content.split("\n")
-        input_and_forms = content[args.input].split(", ")
-        input = input_and_forms[0]
-        forms = input_and_forms[1:]
-    except FileNotFoundError:
-        print(f"Error: The file '{file_path}' was not found.")
-
-    # --- compile the consts into a list ---
+    input = args.input
+    forms = []
+    for form in args.forms:
+        forms.append(form)
 
     consts = []
     available_consts = compile()
-
     for c in args.constraints:
         const_or_none = next((x for x in available_consts if x.name == c), None)
         if not const_or_none:
@@ -101,9 +91,9 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("input",type=int)
-    parser.add_argument("input_set",type=str)
-    parser.add_argument("constraints",type=str,nargs='+')
+    parser.add_argument("input",type=str)
+    parser.add_argument("--forms",type=str, nargs="+")
+    parser.add_argument("--constraints",type=str,nargs='+')
     parser.add_argument("-f","--format", action="store_true")
 
     args = parser.parse_args()
@@ -111,9 +101,9 @@ if __name__ == "__main__":
 
 def analysis(args):
     parser = argparse.ArgumentParser()
-    parser.add_argument("input",type=int)
-    parser.add_argument("input_set",type=str)
-    parser.add_argument("constraints",type=str,nargs='+')
+    parser.add_argument("input",type=str)
+    parser.add_argument("--forms",type=str, nargs="+")
+    parser.add_argument("--constraints",type=str,nargs='+')
     parser.add_argument("-f","--format", action="store_true")
 
     args = parser.parse_args(args)

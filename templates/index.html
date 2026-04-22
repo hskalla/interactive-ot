@@ -12,6 +12,10 @@
         import { reloadAnalysis } from "./static/dynamic.js";
 
         $(document).ready(function(){
+            window.input_index = 1
+            window.inputs = ["embereknek", "hazaknak"]
+            window.forms = [["em.be.rek.nek", "em.be.re.knek", "mbe.rek.nek", "em.be.re.ke.nek", "em.be.re.ke.ne.ke", "em.ber.ek.nek", "em.be.re.k.nek", "em.be.rek.ne", "em.be.re.ne"],
+                            ["ha.zak.nak", "haz.ak.nak", "ha.za.nak", "ha.zak.na", "ha.za.knak", "ha.zak.na.k"]]
             window.constraints = ["NUC","*COMPLEX","MAX","DEP","ONS","*CODA"]
 
             initializePopups()
@@ -20,10 +24,15 @@
     </script>
 </head>
 <body class="body">
-    <h1>Interactive Optimality Theory</h1>
+    <h1 class="title">Interactive Optimality Theory</h1>
+    <div class="navbar">
+        <div><a href="https://github.com/hskalla/interactive-ot" target="_blank"> GitHub </a></div>
+        <div><a href="https://docs.google.com/forms/d/e/1FAIpQLSfAVkoWciF5DMr1ZHsSTlJN79iEVbZrZUey8AhMfBw66f3NmA/viewform?usp=publish-editor" target="_blank"> Submit Feedback </a></div>
+    </div>
     <div class="grid">
         <div class="grid_box">
-            <p><b>Input: </b>{{ input }}</p>
+            <span><b>Input:</b></span>
+            <select class="input_selector" id="input_selector"> {# Input selector is dynamically rendered. #} </select>
         </div>
         <div class="grid_box"> {# empty div for formatting #} </div>
         <div class="grid_box">

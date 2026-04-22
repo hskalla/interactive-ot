@@ -4,7 +4,10 @@ export function reloadAnalysis() {
     fetch('/ot-analysis', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({constraints: window.constraints})
+            body: JSON.stringify({
+                input: window.inputs[window.input_index], 
+                forms: window.forms[window.input_index], 
+                constraints: window.constraints})
         })
         .then(response => response.json()) // Parse the response body as JSON
         .then(json => {
@@ -19,6 +22,8 @@ export function reloadAnalysis() {
                     table[i+1].push(violations);
                 }
             }
+            $(".input_selector").html(formatInputSelector());
+            document.getElementById("input_selector").selectedIndex = window.input_index;
             $(".constraint_table").html(formatConstraints(table));
             $(".candidate_table").html(formatForms(json.tableau));
             let header_height = $('.const_header').height();
@@ -62,6 +67,14 @@ function formatForms(arr) {
     }
     console.log(html)
     return html
+}
+
+function formatInputSelector() {
+    let html = "";
+    for (const i of window.inputs) {
+        html += "<option value=" + i + ">" + i + "</option>";
+    }
+    return html;
 }
 
 function listenerDragStart(e) {
@@ -139,8 +152,10 @@ function bindEvents() {
             }
         });
     });
-    /* document.querySelectorAll('.popup').forEach(elmnt => {
-        dragElement(elmnt);
-    }); */
+    document.getElementById("input_selector").addEventListener("input", e => {
+        console.log("selected index: " + e.target.selectedIndex);
+        window.input_index = e.target.selectedIndex;
+        reloadAnalysis();
+    });
     console.log("binding events")
 }

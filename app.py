@@ -11,15 +11,17 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
-    input="embereknek"
+    input=["embereknek"]
     consts=["NUC","*COMPLEX","MAX","DEP","ONS","*CODA"]
     return render_template('index.html', input=input, consts=consts)
 
 @app.route("/ot-analysis", methods=["POST"])
 def ot_analysis():
     data = request.get_json()
+    input = data.get("input")
+    forms = data.get("forms")
     constraints = data.get("constraints")
-    args = [0,"syllables","--format"] + constraints
+    args = [input, "--forms"] + forms + ["--constraints"] + constraints + ["--format"]
     tableau = analysis(args)
     tableau_list = [[key, value] for key, value in tableau.items()]
     print("ot-analysis: " + str(tableau_list))
