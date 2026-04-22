@@ -1,4 +1,4 @@
-import { openPopup, closePopup, initializePopups } from "./popup.js";
+import { openPopup, closePopup, initializePopups, setInfoPopup } from "./popup.js";
 
 export function reloadAnalysis() {
     fetch('/ot-analysis', {
@@ -31,6 +31,10 @@ export function reloadAnalysis() {
             bindEvents();
         }) // Use the parsed data
         .catch(err => console.log(err)); // Handle network or request errors
+}
+
+export function reloadConstraints() {
+    
 }
 
 function formatConstraints(arr) {
@@ -145,11 +149,8 @@ function bindEvents() {
     console.log(document.querySelectorAll(".const_header"))
     document.querySelectorAll(".const_header").forEach(e => {
         e.addEventListener("click", () => {
-            if (window.constraints.length > 1) {
-                window.constraints = window.constraints.filter(item => item !== e.textContent);
-                console.log(e.textContent);
-                reloadAnalysis();
-            }
+            setInfoPopup(e.textContent);
+            openPopup("constraint_info");
         });
     });
     document.getElementById("input_selector").addEventListener("input", e => {

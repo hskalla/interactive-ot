@@ -1,7 +1,7 @@
 import git
 from flask import Flask, request, jsonify
 from flask import render_template
-from ot.ot import analysis, const_list
+from ot.ot import analysis, const_list, desc_list
 import json
 import hmac
 import hashlib
@@ -32,6 +32,12 @@ def ot_constraints():
     constraints = const_list()
     print("constraints:" + str(constraints))
     return {"constraints": constraints}
+
+@app.route("/ot-descriptions", methods=["POST"])
+def ot_descriptions():
+    descs = desc_list()
+    print("descriptions: "+str(descs))
+    return {"descriptions": descs}
 
 @app.route("/update", methods=["POST"])
 def update():

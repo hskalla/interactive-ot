@@ -33,6 +33,44 @@ export function initializePopups() {
     });
     dragElement(popup);
   });
+
+
+  /* --- constraint info --- */
+  fetch('/ot-descriptions', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+  })
+  .then(response => response.json())
+  .then(json => {
+    let name = "Constraint Info";
+    let id = "constraint_info";
+    let descriptions = json.descriptions;
+    console.log(descriptions);
+    let content = "";
+    let button = "<button id='remove_constraint_button'> Remove </button>"
+    let popup = makePopup(name, id, content, [button]);
+    document.getElementById("popup_constraint_info").descriptions = descriptions;
+    document.getElementById("popup_constraint_info").active_constraint = null;
+    document.getElementById("remove_constraint_button").addEventListener('click', () => {
+      let constraint_choice = document.getElementById("popup_constraint_info").active_constraint;
+      if (window.constraints.includes(constraint_choice)) {
+        window.constraints = window.constraints.filter(item => item !== constraint_choice);
+        closePopup("constraint_info")
+      } else {
+        console.log("Trying to remove a constraint that doesn't exist! This shouldn't happen!")
+      }
+      reloadAnalysis();
+    });
+    dragElement(popup);
+  });
+
+}
+
+export function setInfoPopup(constraint) {
+  document.getElementById("popup_constraint_info").active_constraint = constraint;
+  document.querySelector("#popup_constraint_info .popup_title").innerHTML = "<b>"+constraint+"</b> (Constraint)";
+  document.getElementById("popup_constraint_info_content").innerHTML = popup_constraint_info.descriptions[constraint];
+
 }
 
 export function openPopup(id) {
@@ -58,7 +96,7 @@ function makePopup(name, id, content, buttons=[]) {
     <button class="popup_close" id="` + popup.id + `_close"> X </button>
   `;
   let html = `
-    <div class="popup_header" id="` + popup.id + `_header"> <span>` + name + `</span>` + close_html + `</div>
+    <div class="popup_header" id="` + popup.id + `_header"> <span class="popup_title">` + name + `</span>` + close_html + `</div>
   `;
   html += `
     <div class="popup_content" id="` + popup.id + `_content">` + content + `</div>

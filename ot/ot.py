@@ -57,6 +57,13 @@ def const_list():
         consts[i] = consts[i].name
     return consts
 
+def desc_list():
+    consts = compile()
+    descs = {}
+    for i in range(len(consts)):
+        descs[consts[i].name] = consts[i].desc
+    return descs
+
 def main(args):
     # --- set up variables: input, forms, constraints ---
 
